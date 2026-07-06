@@ -6,19 +6,16 @@
 OledUi::OledUi()
     : display_(OLED_WIDTH, OLED_HEIGHT, &Wire, -1) {}
 
-bool OledUi::begin(uint8_t address) {
-  address_ = address;
+bool OledUi::begin() {
+  address_ = OLED_ADDRESS;
 
   Wire.beginTransmission(address_);
   if (Wire.endTransmission() != 0) {
-    Serial.printf("[OLED] Not detected at 0x%02X; continuing without display\n",
-                  address_);
     return false;
   }
 
   available_ = display_.begin(SSD1306_SWITCHCAPVCC, address_);
   if (!available_) {
-    Serial.println(F("[OLED] SSD1306 allocation/init failed"));
     return false;
   }
 
@@ -29,7 +26,6 @@ bool OledUi::begin(uint8_t address) {
   display_.println(F("ESP-01 Soil Monitor"));
   display_.println(F("Starting..."));
   display_.display();
-  Serial.printf("[OLED] Online at 0x%02X\n", address_);
   return true;
 }
 
@@ -100,7 +96,7 @@ void OledUi::drawStatusPage(bool mqttConnected) {
 void OledUi::drawAdsPage(const SoilReader& soilReader, bool mqttConnected,
                          uint8_t adsIndex) {
   display_.printf("ADS%u 0x%02X %s\n", adsIndex + 1,
-                  ADS_ADDRESSES[adsIndex],
+                  pgm_read_byte(&ADS_ADDRESSES[adsIndex]),
                   soilReader.isOnline(adsIndex) ? "OK" : "OFFLINE");
   printConnectionFlags(mqttConnected);
 

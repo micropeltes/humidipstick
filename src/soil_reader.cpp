@@ -4,14 +4,10 @@
 
 void SoilReader::begin() {
   for (uint8_t adsIndex = 0; adsIndex < ADS_COUNT; ++adsIndex) {
-    online_[adsIndex] = ads_[adsIndex].begin(ADS_ADDRESSES[adsIndex], &Wire);
+    const uint8_t address = pgm_read_byte(&ADS_ADDRESSES[adsIndex]);
+    online_[adsIndex] = ads_[adsIndex].begin(address, &Wire);
     if (online_[adsIndex]) {
       ads_[adsIndex].setGain(GAIN_ONE);
-      Serial.printf("[ADS] ADS%u online at 0x%02X\n", adsIndex + 1,
-                    ADS_ADDRESSES[adsIndex]);
-    } else {
-      Serial.printf("[ADS] ADS%u NOT detected at 0x%02X; continuing\n",
-                    adsIndex + 1, ADS_ADDRESSES[adsIndex]);
     }
   }
 }
@@ -32,9 +28,6 @@ void SoilReader::readAll() {
       result.percent = rawToPercent(result.raw, sensorIndex);
       result.valid = true;
 
-      Serial.printf("[ADS%u CH%u] raw=%d voltage=%.3fV moisture=%.1f%%\n",
-                    adsIndex + 1, channel, result.raw, result.voltage,
-                    result.percent);
       yield();
     }
   }
@@ -58,8 +51,8 @@ const SoilReading& SoilReader::reading(uint8_t adsIndex,
 }
 
 float SoilReader::rawToPercent(int16_t raw, uint8_t sensorIndex) const {
-  const int32_t dry = dryRaw[sensorIndex];
-  const int32_t wet = wetRaw[sensorIndex];
+  const int32_t dry = static_cast<int16_t>(pgm_read_word(&dryRaw[sensorIndex]));
+  const int32_t wet = static_cast<int16_t>(pgm_read_word(&wetRaw[sensorIndex]));
   const int32_t span = wet - dry;
 
   if (span == 0) {

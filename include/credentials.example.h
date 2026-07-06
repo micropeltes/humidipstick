@@ -11,8 +11,6 @@
 #define MQTT_CLIENT_ID "esp01-soil-01"
 #define MQTT_BASE_TOPIC "garden/soil/esp01-soil-01"
 
-#define OLED_ADDRESS 0x3C
-
 // The ESP8266 connects only to MQTT_HOST:MQTT_PORT.
 // If the broker is reachable only through SSH, create the SSH tunnel on a
 // server/router/laptop that is reachable by the ESP; do not run SSH on ESP-01.
