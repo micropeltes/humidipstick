@@ -56,19 +56,22 @@ cp include/credentials.example.h include/credentials.h
 ```
 
 Then edit `include/credentials.h` with your WiFi network, MQTT broker, MQTT
-client ID, MQTT base topic, and OLED address.
+client ID, and MQTT base topic. OLED and sensor-bus settings live in
+`include/config.h`.
 
-Calibrate every sensor in `include/config.h` by replacing the example `dryRaw`
-and `wetRaw` values with measurements from your own sensors. The conversion
-supports both sensor types where dry readings are higher than wet readings and
-the reverse.
+Configure `ADS_ADDRESSES` in `include/config.h` with only the ADS1115 addresses
+you may install; the firmware probes those addresses at boot and keeps running
+when any subset is missing. Calibrate every sensor in `include/config.h` by
+replacing the example `dryRaw` and `wetRaw` values with measurements from your
+own sensors. The conversion supports both sensor types where dry readings are
+higher than wet readings and the reverse. Set `OLED_ENABLED` and `OLED_ADDRESS`
+in `include/config.h` to enable, disable, or move the optional display.
 
-## Build, Upload, and Monitor
+## Build and Upload
 
 ```sh
 pio run
 pio run -t upload
-pio device monitor
 ```
 
 The default PlatformIO environment is `esp01_1m`.

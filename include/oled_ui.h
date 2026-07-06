@@ -9,7 +9,7 @@ class OledUi {
  public:
   OledUi();
 
-  bool begin(uint8_t address);
+  bool begin();
   void update(const SoilReader& soilReader, bool mqttConnected);
   void setPage(uint8_t page);
   bool available() const;

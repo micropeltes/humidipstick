@@ -18,8 +18,6 @@ void MqttClient::begin(const char* host, uint16_t port, const char* user,
   instance_ = this;
   client_.setServer(host_, port_);
   client_.setCallback(callbackThunk);
-
-  Serial.printf("[MQTT] Broker configured: %s:%u\n", host_, port_);
 }
 
 void MqttClient::loop() {
@@ -71,15 +69,12 @@ void MqttClient::callbackThunk(char* topic, uint8_t* payload,
 
 void MqttClient::handleCallback(char* topic, uint8_t* payload,
                                 unsigned int length) {
-  Serial.printf("[MQTT] Message received on %s (%u bytes)\n", topic, length);
   if (strcmp(topic, commandTopic_) == 0 && commandHandler_ != nullptr) {
     commandHandler_(payload, length);
   }
 }
 
 void MqttClient::reconnect() {
-  Serial.printf("[MQTT] Connecting as %s...\n", clientId_);
-
   bool connected = false;
   if (user_ != nullptr && user_[0] != '\0') {
     connected =
@@ -91,17 +86,11 @@ void MqttClient::reconnect() {
   }
 
   if (!connected) {
-    Serial.printf("[MQTT] Connect failed, state=%d\n", client_.state());
     return;
   }
 
-  Serial.println(F("[MQTT] Connected"));
   client_.publish(statusTopic_, "online", true);
-  if (client_.subscribe(commandTopic_)) {
-    Serial.printf("[MQTT] Subscribed to %s\n", commandTopic_);
-  } else {
-    Serial.println(F("[MQTT] Command subscription failed"));
-  }
+  client_.subscribe(commandTopic_);
 }
 
 void MqttClient::buildTopics() {
