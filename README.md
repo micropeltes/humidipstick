@@ -116,23 +116,32 @@ Command fields:
 
 ## License
 
-This project is provided under a custom non-commercial license.
+Copyright (c) 2026 micropeltes
 
-You may:
+Permission is granted solely for:
 
-- Try, run, and test this project for personal purposes.
-- Study the source code and learn from the implementation.
-- Modify the project for private, educational, research, or evaluation use.
+- Personal use
+- Educational use
+- Research
+- Evaluation
 
-You may not, without prior written permission from the project owner:
+Commercial use is prohibited.
 
-- Use this project, or a modified version of it, for commercial purposes.
-- Sell, rent, sublicense, or commercially distribute this project.
-- Integrate this project into a paid product, paid service, client project, or
-  revenue-generating system.
-- Use this project to provide paid installation, monitoring, automation, or
-  consulting services.
+Commercial use includes but is not limited to:
 
-All rights not explicitly granted above are reserved by the project owner. This
-custom license is intended to allow experimentation and learning while
-prohibiting commercial use.
+- Selling
+- Reselling
+- SaaS
+- Client projects
+- Paid consulting
+- Paid installation
+- Internal business operations
+- Revenue-generating systems
+
+Redistribution is prohibited without written permission.
+
+This software is provided "AS IS" without warranty.
+
+Violation of this license immediately terminates all rights granted under this license.
+
+Unauthorized use may constitute copyright infringement under applicable law.
